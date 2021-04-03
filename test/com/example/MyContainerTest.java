@@ -2,10 +2,12 @@ package com.example;
 
 import com.example.customer.CustomerService;
 import com.example.customer.CustomerServiceImpl;
+import com.example.exception.NoUniqueBeanDefinitionException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MyContainerTest {
     @Test
@@ -16,4 +18,12 @@ public class MyContainerTest {
 
         assertEquals(CustomerServiceImpl.class, service.getClass());
     }
+
+    @Test
+    @DisplayName("부모 타입으로 조회시, 자식이 둘 이상 있으면 중복 오류가 발생한다")
+    void testNoUniqueBean()  {
+        MyContainer container = new MyContainer(AppConfig.class);
+        assertThrows(NoUniqueBeanDefinitionException.class, () -> container.getBean(CustomerService.class));
+    }
+
 }
