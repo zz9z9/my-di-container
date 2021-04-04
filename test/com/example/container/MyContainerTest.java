@@ -6,7 +6,6 @@ import com.example.customer.CustomerService;
 import com.example.customer.CustomerServiceImpl;
 import com.example.exception.NoSuchBeanDefinitionException;
 import com.example.exception.NoUniqueBeanDefinitionException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -33,8 +32,6 @@ public class MyContainerTest {
     @DisplayName("컨테이너 생성시 설정파일에 기반하여 빈을 등록해야 한다.")
     void registerBeans() {
         Container container = new MyContainer(TestAppConfig.class);
-
-        assertEquals(1, container.getBeanDefinitionCount());
 
         for(String beanName : container.getBeanDefinitionNames()) {
             assertDoesNotThrow(() -> container.getBean(beanName));

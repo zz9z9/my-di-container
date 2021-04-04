@@ -1,6 +1,5 @@
 package com.example.container;
 
-import com.example.AppConfig;
 import com.example.customer.CustomerService;
 import com.example.customer.CustomerServiceImpl;
 import com.example.exception.NoSuchBeanDefinitionException;
@@ -9,10 +8,7 @@ import com.example.exception.NoUniqueBeanDefinitionException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MyContainer implements Container {
 
@@ -88,11 +84,19 @@ public class MyContainer implements Container {
 
     @Override
     public String[] getBeanDefinitionNames() {
-        return new String[0];
+        Set<String> keys = beanRegistry.keySet();
+        String[] beanNames = new String[keys.size()];
+
+        int idx = 0;
+        for(String key : keys) {
+            beanNames[idx++] = key;
+        }
+
+        return beanNames;
     }
 
     @Override
     public int getBeanDefinitionCount() {
-        return 1;
+        return beanRegistry.size();
     }
 }
