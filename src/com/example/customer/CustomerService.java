@@ -1,5 +1,6 @@
 package com.example.customer;
 
 public interface CustomerService {
-    void requestDressTour();
+
+    void requestDressTour(Customer customer);
 }

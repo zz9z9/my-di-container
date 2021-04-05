@@ -24,14 +24,14 @@ public class MyContainerTest {
     @Test
     @DisplayName("부모 타입으로 조회시, 자식이 둘 이상 있으면 중복 오류가 발생한다")
     void testNoUniqueBean()  {
-        Container container = new MyContainer(AppConfig.class);
+        Container container = new MyContainer(TestAppConfig.class);
         assertThrows(NoUniqueBeanDefinitionException.class, () -> container.getBean(CustomerService.class));
     }
 
     @Test
     @DisplayName("컨테이너 생성시 설정파일에 기반하여 빈을 등록해야 한다.")
     void registerBeans() {
-        Container container = new MyContainer(TestAppConfig.class);
+        Container container = new MyContainer(AppConfig.class);
 
         for(String beanName : container.getBeanDefinitionNames()) {
             assertDoesNotThrow(() -> container.getBean(beanName));

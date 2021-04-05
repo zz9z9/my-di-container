@@ -1,9 +1,17 @@
 package com.example.customer;
 
+import com.example.planner.PlannerService;
+
 public class CustomerServiceImpl implements CustomerService{
 
-    @Override
-    public void requestDressTour() {
+    PlannerService plannerService;
 
+    public CustomerServiceImpl(PlannerService plannerService) {
+        this.plannerService = plannerService;
+    }
+
+    @Override
+    public void requestDressTour(Customer customer) {
+        plannerService.setDressTourPlan(customer);
     }
 }

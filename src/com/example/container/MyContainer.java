@@ -1,7 +1,5 @@
 package com.example.container;
 
-import com.example.customer.CustomerService;
-import com.example.customer.CustomerServiceImpl;
 import com.example.exception.NoSuchBeanDefinitionException;
 import com.example.exception.NoUniqueBeanDefinitionException;
 
@@ -12,16 +10,11 @@ import java.util.*;
 
 public class MyContainer implements Container {
 
-    Map<String, Object> beanRegistry = new HashMap<>();
-    Map<Class, List<Object>> map2 = new HashMap<>();
+    Map<String, Object> beanNameRegistry = new HashMap<>();
+    Map<Class, List<String>> beanTypeRegistry = new HashMap<>();
 
     public MyContainer(Class<?>... clazz) {
-        List<Object> li = new ArrayList<>();
-        li.add(new CustomerServiceImpl());
-        li.add(new CustomerServiceImpl());
         this.registerBeans(clazz);
-
-        map2.put(CustomerService.class, li);
     }
 
     @Override
@@ -32,13 +25,18 @@ public class MyContainer implements Container {
                 String configName = constructor.getName();
                 Object configInstance = constructor.newInstance();
 
-                beanRegistry.put(configName, configInstance);
+                beanNameRegistry.put(configName, configInstance);
 
                 for (Method m : c.getDeclaredMethods()) {
+                    Class beanType = m.getReturnType();
                     String beanName = m.getName();
                     Object bean = m.invoke(constructor.newInstance());
+                    List<String> beanNamesByType = beanTypeRegistry.getOrDefault(beanType, new ArrayList<>());
 
-                    beanRegistry.put(beanName, bean);
+                    beanNamesByType.add(beanName);
+
+                    beanNameRegistry.put(beanName, bean);
+                    beanTypeRegistry.put(beanType, beanNamesByType);
                 }
             }
         } catch (InvocationTargetException e) {
@@ -54,7 +52,7 @@ public class MyContainer implements Container {
 
     @Override
     public Object getBean(String beanName) throws NoSuchBeanDefinitionException {
-        Object bean = beanRegistry.get(beanName);
+        Object bean = beanNameRegistry.get(beanName);
         if (bean == null) {
             throw new NoSuchBeanDefinitionException();
         }
@@ -64,7 +62,7 @@ public class MyContainer implements Container {
 
     @Override
     public <T> T getBean(String name, Class<T> type) throws NoSuchBeanDefinitionException {
-        Object bean = beanRegistry.get(name);
+        Object bean = beanNameRegistry.get(name);
         if (bean == null) {
             throw new NoSuchBeanDefinitionException();
         }
@@ -74,17 +72,18 @@ public class MyContainer implements Container {
 
     @Override
     public <T> T getBean(Class<T> type) throws NoUniqueBeanDefinitionException {
-        List<Object> obj = map2.get(type);
-        if (obj.size() > 1) {
+        List<String> beanNames = beanTypeRegistry.get(type);
+        if (beanNames.size() > 1) {
             throw new NoUniqueBeanDefinitionException();
         }
+        String beanName = beanNames.get(0);
 
-        return (T) obj;
+        return (T) beanNameRegistry.get(beanName);
     }
 
     @Override
     public String[] getBeanDefinitionNames() {
-        Set<String> keys = beanRegistry.keySet();
+        Set<String> keys = beanNameRegistry.keySet();
         String[] beanNames = new String[keys.size()];
 
         int idx = 0;
@@ -97,6 +96,6 @@ public class MyContainer implements Container {
 
     @Override
     public int getBeanDefinitionCount() {
-        return beanRegistry.size();
+        return beanNameRegistry.size();
     }
 }
