@@ -1,15 +1,17 @@
 package com.example.customer;
 
+import java.util.List;
+
 public class Customer {
 
     int id;
     String name;
-    boolean isAccompanyPlanner;
+    List<String> schedule;
 
-    public Customer(int id, String name, boolean isAccompanyPlanner) {
+    public Customer(int id, String name, List<String> schedule) {
         this.id = id;
         this.name = name;
-        this.isAccompanyPlanner = isAccompanyPlanner;
+        this.schedule = schedule;
     }
 
     public int getId() {
@@ -28,11 +30,11 @@ public class Customer {
         this.name = name;
     }
 
-    public boolean isAccompanyPlanner() {
-        return isAccompanyPlanner;
+    public List<String> getSchedule() {
+        return schedule;
     }
 
-    public void setAccompanyPlanner(boolean accompanyPlanner) {
-        isAccompanyPlanner = accompanyPlanner;
+    public void setSchedule(List<String> schedule) {
+        this.schedule = schedule;
     }
 }
