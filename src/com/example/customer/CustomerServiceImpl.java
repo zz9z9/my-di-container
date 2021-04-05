@@ -27,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService{
         if(findCustomer(customer.getId())!=null) {
             plannerService.setDressTourPlan(customer);
         } else {
-            System.out.println("등록되지 않은 고객입니");
+            System.out.println("등록되지 않은 고객입니다");
         }
     }
 }

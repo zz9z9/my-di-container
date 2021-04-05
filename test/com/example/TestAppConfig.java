@@ -17,7 +17,7 @@ public class TestAppConfig {
     }
 
     public PlannerService plannerService() {
-        return new PlannerServiceImpl();
+        return new PlannerServiceImpl(customerRepository());
     }
 
     public CustomerRepository customerRepository() {

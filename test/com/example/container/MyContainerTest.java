@@ -24,6 +24,20 @@ public class MyContainerTest {
     }
 
     @Test
+    @DisplayName("다양한 getBean을 통해 bean을 가져올 수 있어야한다.")
+    void getBeanVariousWay() throws NoSuchBeanDefinitionException, NoUniqueBeanDefinitionException {
+        CustomerService service;
+
+        service = container.getBean("customerService", CustomerService.class);
+        assertEquals(CustomerServiceImpl.class, service.getClass());
+
+        service = (CustomerService) container.getBean("customerService");
+        assertEquals(CustomerServiceImpl.class, service.getClass());
+
+        service = container.getBean(CustomerService.class);
+    }
+
+    @Test
     @DisplayName("부모 타입으로 조회시, 자식이 둘 이상 있으면 중복 오류가 발생한다")
     void getDuplicatedBean()  {
         assertThrows(NoUniqueBeanDefinitionException.class, () -> exceptionContainer.getBean(CustomerService.class));
