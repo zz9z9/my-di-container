@@ -35,6 +35,7 @@ public class MyContainerTest {
         assertEquals(CustomerServiceImpl.class, service.getClass());
 
         service = container.getBean(CustomerService.class);
+        assertEquals(CustomerServiceImpl.class, service.getClass());
     }
 
     @Test
