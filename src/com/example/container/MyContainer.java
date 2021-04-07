@@ -29,14 +29,30 @@ public class MyContainer implements Container {
 
                 for (Method m : c.getDeclaredMethods()) {
                     Class beanType = m.getReturnType();
+                    System.out.println("beanType.getDeclaringClass() : "+beanType.getDeclaringClass());
+
+                    for(Class testClass : beanType.getDeclaredClasses()) {
+                        System.out.println("getDeclaredClasses : "+testClass);
+                    }
+
+                    for(Class testClass : beanType.getClasses()) {
+                        System.out.println("getClasses : "+testClass);
+                    }
+
+                    // System.out.println(""+beanType.get);
                     String beanName = m.getName();
-                    Object bean = m.invoke(constructor.newInstance());
+                    Object bean = m.invoke(configInstance);
+                    Class instanceType = bean.getClass();
+
                     List<String> beanNamesByType = beanTypeRegistry.getOrDefault(beanType, new ArrayList<>());
+                    List<String> beanNamesByInstanceType = beanTypeRegistry.getOrDefault(instanceType, new ArrayList<>());
 
                     beanNamesByType.add(beanName);
+                    beanNamesByInstanceType.add(beanName);
 
                     beanNameRegistry.put(beanName, bean);
                     beanTypeRegistry.put(beanType, beanNamesByType);
+                    beanTypeRegistry.put(instanceType, beanNamesByInstanceType);
                 }
             }
         } catch (InvocationTargetException e) {
@@ -72,6 +88,7 @@ public class MyContainer implements Container {
 
     @Override
     public <T> T getBean(Class<T> type) throws NoUniqueBeanDefinitionException {
+        System.out.println("beanTypeRegistry : "+beanTypeRegistry);
         List<String> beanNames = beanTypeRegistry.get(type);
         if (beanNames.size() > 1) {
             throw new NoUniqueBeanDefinitionException();
