@@ -7,16 +7,20 @@ import com.example.customer.TemporaryCustomerRepository;
 import com.example.planner.PlannerService;
 import com.example.planner.PlannerServiceImpl;
 
-public class AppConfig {
+public class AppConfig extends CommonConfig {
+
     public CustomerService customerService() {
-        return new CustomerServiceImpl(customerRepository(), plannerService());
+        CustomerService customerService = new CustomerServiceImpl(customerRepository(), plannerService());
+        return super.getBean(customerService);
     }
 
     public PlannerService plannerService() {
-        return new PlannerServiceImpl(customerRepository());
+        PlannerService plannerService = new PlannerServiceImpl(customerRepository());
+        return super.getBean(plannerService);
     }
 
     public CustomerRepository customerRepository() {
-        return new TemporaryCustomerRepository();
+        CustomerRepository customerRepository = new TemporaryCustomerRepository();
+        return super.getBean(customerRepository);
     }
 }

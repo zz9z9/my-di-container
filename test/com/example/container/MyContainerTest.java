@@ -2,10 +2,12 @@ package com.example.container;
 
 import com.example.AppConfig;
 import com.example.TestAppConfig;
+import com.example.customer.CustomerRepository;
 import com.example.customer.CustomerService;
 import com.example.customer.CustomerServiceImpl;
 import com.example.exception.NoSuchBeanDefinitionException;
 import com.example.exception.NoUniqueBeanDefinitionException;
+import com.example.planner.PlannerServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -57,4 +59,18 @@ public class MyContainerTest {
     void getBeanByInValidName() {
         assertThrows(NoSuchBeanDefinitionException.class, () -> exceptionContainer.getBean("strangerBean"));
     }
+
+    @Test
+    @DisplayName("config 파일 통해 빈으로 등록되는 객체들은 유일해야 한다")
+    void checkSingletonInstance() throws NoUniqueBeanDefinitionException {
+        Container container = new MyContainer(AppConfig.class);
+
+        CustomerServiceImpl customerService = container.getBean(CustomerServiceImpl.class);
+        PlannerServiceImpl plannerService = container.getBean(PlannerServiceImpl.class);
+        CustomerRepository customerRepository = container.getBean(CustomerRepository.class);
+
+        assertSame(customerRepository, customerService.getCustomerRepository());
+        assertSame(customerRepository, plannerService.getCustomerRepository());
+    }
+
 }
