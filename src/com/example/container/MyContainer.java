@@ -44,6 +44,7 @@ public class MyContainer implements Container {
                     beanTypeRegistry.put(instanceType, beanNamesByInstanceType);
                 }
             }
+            System.out.println("beanNameRegistry :: "+beanNameRegistry);
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -77,7 +78,6 @@ public class MyContainer implements Container {
 
     @Override
     public <T> T getBean(Class<T> type) throws NoUniqueBeanDefinitionException {
-        System.out.println("beanTypeRegistry : "+beanTypeRegistry);
         List<String> beanNames = beanTypeRegistry.get(type);
         if (beanNames.size() > 1) {
             throw new NoUniqueBeanDefinitionException();
