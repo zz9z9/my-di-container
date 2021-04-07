@@ -2,10 +2,10 @@ package com.example.customer;
 
 import com.example.planner.PlannerService;
 
-public class CustomerServiceImpl implements CustomerService{
+public class CustomerServiceImpl implements CustomerService {
 
-    CustomerRepository customerRepository;
-    PlannerService plannerService;
+    private final CustomerRepository customerRepository;
+    private final PlannerService plannerService;
 
     public CustomerServiceImpl(CustomerRepository customerRepository, PlannerService plannerService) {
         this.customerRepository = customerRepository;
@@ -29,5 +29,10 @@ public class CustomerServiceImpl implements CustomerService{
         } else {
             System.out.println("등록되지 않은 고객입니다");
         }
+    }
+
+    // 싱글톤 객체로 생성되는지 테스트하기 위한 메서드
+    public CustomerRepository getCustomerRepository() {
+        return customerRepository;
     }
 }
