@@ -24,4 +24,10 @@ public class CustomerServiceTest {
         Customer getCustomer = customerService.findCustomer(newCustomer.getId());
         assertSame(newCustomer, getCustomer);
     }
+
+    @Test
+    @DisplayName("등록되지 않은 고객 조회시 null 리턴")
+    void checkNotRegisteredCustomer() {
+        assertSame(null, customerService.findCustomer(123));
+    }
 }
