@@ -29,17 +29,6 @@ public class MyContainer implements Container {
 
                 for (Method m : c.getDeclaredMethods()) {
                     Class beanType = m.getReturnType();
-                    System.out.println("beanType.getDeclaringClass() : "+beanType.getDeclaringClass());
-
-                    for(Class testClass : beanType.getDeclaredClasses()) {
-                        System.out.println("getDeclaredClasses : "+testClass);
-                    }
-
-                    for(Class testClass : beanType.getClasses()) {
-                        System.out.println("getClasses : "+testClass);
-                    }
-
-                    // System.out.println(""+beanType.get);
                     String beanName = m.getName();
                     Object bean = m.invoke(configInstance);
                     Class instanceType = bean.getClass();
