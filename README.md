@@ -5,7 +5,7 @@
 ### MyContainer 제공 기능
 1.  AppConfig 파일에 등록된 메서드 기반으로 빈 등록 (싱글턴 패턴 사용하지 않고 하나의 인스턴스만 생성되도록 보장)
 2. 등록된 빈 가져오기 (예외처리 : NoSuchBeanDefinitionException, NoUniqueBeanDefinitionException)
-- 메서 파라미터 : 빈 이름 or 빈 이름 & 클래스/인터페이스 타입 or 클래스/인터페이스 타입 
+- 메서드 파라미터 : 빈 이름 or 빈 이름 & 클래스/인터페이스 타입 or 클래스/인터페이스 타입 
 3. 등록된 빈 이름, 개수 조회 
 
 ### MyApp Flow
