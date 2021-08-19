@@ -1,6 +1,6 @@
 # DI Container 만들어보기
 
-※ 제작 전반에 관해 고민해본 내용들은 https://www.slideshare.net/JAEYOONLEE23/my-di-container 참고해주세요 
+※ 제작 전반에 관해 고민해본 내용들은 https://zz9z9.github.io/posts/my-di-container/ 참고해주세요 
 
 ### 프로젝트 목적
 - 순수 자바코드로 스프링 DI Container를 구현해보면서 DI의 필요성, 스프링 컨테이너 동작 원리 등을 이해해보기 위해
