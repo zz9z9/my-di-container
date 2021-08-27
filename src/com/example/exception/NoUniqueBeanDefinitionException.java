@@ -1,6 +1,6 @@
 package com.example.exception;
 
-public class NoUniqueBeanDefinitionException extends Exception{
+public class NoUniqueBeanDefinitionException extends RuntimeException{
 }
 
  // TODO

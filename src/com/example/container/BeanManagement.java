@@ -1,16 +1,13 @@
 package com.example.container;
 
-import com.example.exception.NoSuchBeanDefinitionException;
-import com.example.exception.NoUniqueBeanDefinitionException;
-
 public interface BeanManagement {
     void registerBeans(Class<?>... clazz);
 
-    Object getBean(String beanName) throws NoSuchBeanDefinitionException;
+    Object getBean(String beanName);
 
-    <T> T getBean(String beanName, Class<T> beanType) throws NoSuchBeanDefinitionException;
+    <T> T getBean(String beanName, Class<T> beanType);
 
-    <T> T getBean(Class<T> beanType) throws NoUniqueBeanDefinitionException;
+    <T> T getBean(Class<T> beanType);
 
     String[] getBeanDefinitionNames();
 

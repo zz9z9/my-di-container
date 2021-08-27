@@ -20,14 +20,14 @@ public class MyContainerTest {
 
     @Test
     @DisplayName("컨테이너에서 주입해 준 CustomerService의 실제 구현체는 CustomerServiceImpl이다.")
-    void getBean() throws NoSuchBeanDefinitionException {
+    void getBean() {
         CustomerService service = container.getBean("customerService", CustomerService.class);
         assertEquals(CustomerServiceImpl.class, service.getClass());
     }
 
     @Test
     @DisplayName("다양한 getBean을 통해 bean을 가져올 수 있어야한다.")
-    void getBeanVariousWay() throws NoSuchBeanDefinitionException, NoUniqueBeanDefinitionException {
+    void getBeanVariousWay() {
         CustomerService service;
 
         service = container.getBean("customerService", CustomerService.class);
@@ -62,7 +62,7 @@ public class MyContainerTest {
 
     @Test
     @DisplayName("config 파일 통해 빈으로 등록되는 객체들은 유일해야 한다")
-    void checkSingletonInstance() throws NoUniqueBeanDefinitionException {
+    void checkSingletonInstance() {
         Container container = new MyContainer(AppConfig.class);
 
         CustomerServiceImpl customerService = container.getBean(CustomerServiceImpl.class);
