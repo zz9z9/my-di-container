@@ -10,8 +10,8 @@ import java.util.*;
 
 public class MyContainer implements Container {
 
-    Map<String, Object> beanNameRegistry = new HashMap<>();
-    Map<Class, List<String>> beanTypeRegistry = new HashMap<>();
+    private Map<String, Object> beanNameRegistry = new HashMap<>();
+    private Map<Class, List<String>> beanTypeRegistry = new HashMap<>();
 
     public MyContainer(Class<?>... clazz) {
         this.registerBeans(clazz);
@@ -57,30 +57,30 @@ public class MyContainer implements Container {
     }
 
     @Override
-    public Object getBean(String beanName) throws NoSuchBeanDefinitionException {
+    public Object getBean(String beanName) {
         Object bean = beanNameRegistry.get(beanName);
         if (bean == null) {
-            throw new NoSuchBeanDefinitionException();
+            throw new NoSuchBeanDefinitionException(beanName);
         }
 
         return bean;
     }
 
     @Override
-    public <T> T getBean(String name, Class<T> type) throws NoSuchBeanDefinitionException {
-        Object bean = beanNameRegistry.get(name);
+    public <T> T getBean(String beanName, Class<T> type) {
+        Object bean = beanNameRegistry.get(beanName);
         if (bean == null) {
-            throw new NoSuchBeanDefinitionException();
+            throw new NoSuchBeanDefinitionException(String.format("No bean named '%s' available", beanName));
         }
 
         return (T) bean;
     }
 
     @Override
-    public <T> T getBean(Class<T> type) throws NoUniqueBeanDefinitionException {
+    public <T> T getBean(Class<T> type) {
         List<String> beanNames = beanTypeRegistry.get(type);
         if (beanNames.size() > 1) {
-            throw new NoUniqueBeanDefinitionException();
+            throw new NoUniqueBeanDefinitionException(type, beanNames);
         }
         String beanName = beanNames.get(0);
 
