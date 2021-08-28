@@ -1,23 +1,24 @@
 package com.example;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class CommonConfig {
 
     private static Map<String, Object> beanStore = new ConcurrentHashMap<>();
+    private static Set<String> beanNames = ConcurrentHashMap.newKeySet();
 
-    public <T> T getBean(T instance) {
+    public Object getBean(String beanName) {
+        return beanStore.get(beanName);
+    }
 
-        String instanceName = instance.getClass().getName();
-        T returnInstance;
+    public <T> void createBean(String beanName, T instance) {
+        beanStore.put(beanName, instance);
+        beanNames.add(beanName);
+    }
 
-        if(beanStore.get(instanceName)==null) {
-            beanStore.put(instanceName, instance);
-        }
-
-        returnInstance = (T) beanStore.get(instanceName);
-
-        return returnInstance;
+    public boolean isExist(String beanName) {
+        return beanNames.contains(beanName);
     }
 }
